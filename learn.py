@@ -8,7 +8,7 @@ from src.game import Game
 from src.ui import UI
 
 
-def train_snake_ai(generations=50):
+def train_snake_ai(generations=100):
     """Train the snake AI using genetic algorithm"""
     ga = GeneticAlgorithm()
     

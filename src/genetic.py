@@ -4,7 +4,7 @@ from .network import NeuralNetwork
 import numpy as np
 
 class GeneticAlgorithm:
-    def __init__(self, population_size=50, mutation_rate=0.1, mutation_strength=0.1):
+    def __init__(self, population_size=200, mutation_rate=0.1, mutation_strength=0.1):
         self.population_size = population_size
         self.mutation_rate = mutation_rate
         self.mutation_strength = mutation_strength
@@ -29,7 +29,7 @@ class GeneticAlgorithm:
             game = Game()
             steps = 0
             
-            while not game.game_over and steps < 1000:  # Max steps per game
+            while not game.game_over and steps < 1500:  # Max steps per game
                 state = game.get_state()
                 action = network.predict(state)
                 game.step(action)
@@ -45,6 +45,14 @@ class GeneticAlgorithm:
             # Penalty for dying without eating
             if score == 0:
                 fitness -= 50
+            
+            # Penalty for eating tail (self-collision)
+            if game.game_over and game.snake.check_self_collision():
+                fitness -= 30 
+            
+            # Bonus for higher scores (exponential reward)
+            if score > 5:
+                fitness += score * 20
             
             total_score += fitness
             total_steps += steps

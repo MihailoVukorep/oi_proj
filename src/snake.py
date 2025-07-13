@@ -52,6 +52,11 @@ class Snake:
         # Prevent moving backwards
         if (direction[0] * -1, direction[1] * -1) != self.direction:
             self.direction = direction
+
+    def check_self_collision(self):
+        """Check if the snake has collided with itself"""
+        head = self.body[0]
+        return head in self.body[1:]
     
     def eat_food(self):
         self.grow = True
