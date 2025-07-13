@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import pygame
 import globals as gl
 from genetic import GeneticAlgorithm 
