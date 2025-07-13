@@ -8,7 +8,7 @@ from src.game import Game
 from src.ui import UI
 
 
-def train_snake_ai(generations=100):
+def train_snake_ai(generations=50):
     """Train the snake AI using genetic algorithm"""
     ga = GeneticAlgorithm()
     
@@ -85,7 +85,7 @@ def play_game_with_ai(network, visual=True, generation=None):
                 ui.draw_game_over(game.snake.score)
             
             pygame.display.flip()
-            clock.tick(15)  # Slightly faster for better visual experience
+            clock.tick(60)  # Slightly faster for better visual experience
     
     # If visual mode and game is over, wait for user input
     if visual and game.game_over:
@@ -136,7 +136,7 @@ if __name__ == "__main__":
         print("This may take a while...")
         
         # Train the AI
-        best_network = train_snake_ai(generations=100)
+        best_network = train_snake_ai(generations=200)
         
         # Test the trained AI
         print("\nTesting trained AI:")
