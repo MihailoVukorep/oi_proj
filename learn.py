@@ -1,9 +1,14 @@
 #!/usr/bin/env python
 
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+
 import pygame
-import globals as gl
-from genetic import GeneticAlgorithm 
-from game import Game
+import src.globals as gl
+from src.genetic import GeneticAlgorithm 
+from src.game import Game
+
 
 def train_snake_ai(generations=50):
     """Train the snake AI using genetic algorithm"""
