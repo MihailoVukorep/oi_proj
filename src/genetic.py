@@ -1,6 +1,6 @@
 import random
-from game import Game
-from network import NeuralNetwork
+from .game import Game
+from .network import NeuralNetwork
 import numpy as np
 
 class GeneticAlgorithm:

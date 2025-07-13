@@ -1,4 +1,3 @@
-import globals as gl
 import numpy as np
 
 class NeuralNetwork:

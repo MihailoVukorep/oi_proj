@@ -1,12 +1,12 @@
-import globals as gl
+from .globals import *
 
 class Snake:
     def __init__(self):
         self.reset()
     
     def reset(self):
-        self.body = [(gl.GRID_WIDTH // 2, gl.GRID_HEIGHT // 2)]
-        self.direction = gl.RIGHT
+        self.body = [(GRID_WIDTH // 2, GRID_HEIGHT // 2)]
+        self.direction = RIGHT
         self.grow = False
         self.alive = True
         self.score = 0
@@ -22,8 +22,8 @@ class Snake:
         new_head = (head_x + dx, head_y + dy)
         
         # Check wall collision
-        if (new_head[0] < 0 or new_head[0] >= gl.GRID_WIDTH or 
-            new_head[1] < 0 or new_head[1] >= gl.GRID_HEIGHT):
+        if (new_head[0] < 0 or new_head[0] >= GRID_WIDTH or 
+            new_head[1] < 0 or new_head[1] >= GRID_HEIGHT):
             self.alive = False
             return
         

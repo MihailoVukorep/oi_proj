@@ -1,21 +1,21 @@
 import numpy as np
 import random
-import globals as gl
-import snake
+from .globals import *
+from .snake import Snake
 
 class Game:
     def __init__(self):
         self.reset()
     
     def reset(self):
-        self.snake = snake.Snake()
+        self.snake = Snake()
         self.place_food()
         self.game_over = False
     
     def place_food(self):
         while True:
-            x = random.randint(0, gl.GRID_WIDTH - 1)
-            y = random.randint(0, gl.GRID_HEIGHT - 1)
+            x = random.randint(0, GRID_WIDTH - 1)
+            y = random.randint(0, GRID_HEIGHT - 1)
             if (x, y) not in self.snake.body:
                 self.food = (x, y)
                 break
@@ -26,13 +26,13 @@ class Game:
         
         # Convert action to direction
         if action == 0:  # Up
-            self.snake.set_direction(gl.UP)
+            self.snake.set_direction(UP)
         elif action == 1:  # Down
-            self.snake.set_direction(gl.DOWN)
+            self.snake.set_direction(DOWN)
         elif action == 2:  # Left
-            self.snake.set_direction(gl.LEFT)
+            self.snake.set_direction(LEFT)
         elif action == 3:  # Right
-            self.snake.set_direction(gl.RIGHT)
+            self.snake.set_direction(RIGHT)
         
         self.snake.move()
         
@@ -57,18 +57,18 @@ class Game:
         danger_straight = self.is_collision(head_x, head_y, self.snake.direction)
         
         # Get left and right directions relative to current direction
-        dir_idx = gl.DIRECTIONS.index(self.snake.direction)
-        left_dir = gl.DIRECTIONS[(dir_idx - 1) % 4]
-        right_dir = gl.DIRECTIONS[(dir_idx + 1) % 4]
+        dir_idx = DIRECTIONS.index(self.snake.direction)
+        left_dir = DIRECTIONS[(dir_idx - 1) % 4]
+        right_dir = DIRECTIONS[(dir_idx + 1) % 4]
         
         danger_left = self.is_collision(head_x, head_y, left_dir)
         danger_right = self.is_collision(head_x, head_y, right_dir)
         
         # Current direction as one-hot
-        dir_up = self.snake.direction == gl.UP
-        dir_down = self.snake.direction == gl.DOWN
-        dir_left = self.snake.direction == gl.LEFT
-        dir_right = self.snake.direction == gl.RIGHT
+        dir_up = self.snake.direction == UP
+        dir_down = self.snake.direction == DOWN
+        dir_left = self.snake.direction == LEFT
+        dir_right = self.snake.direction == RIGHT
         
         # Food direction relative to snake
         food_up = food_y < head_y
@@ -98,7 +98,7 @@ class Game:
         new_x, new_y = x + dx, y + dy
         
         # Wall collision
-        if new_x < 0 or new_x >= gl.GRID_WIDTH or new_y < 0 or new_y >= gl.GRID_HEIGHT:
+        if new_x < 0 or new_x >= GRID_WIDTH or new_y < 0 or new_y >= GRID_HEIGHT:
             return True
         
         # Self collision
