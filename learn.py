@@ -47,6 +47,10 @@ def play_game_with_ai(network, visual=True, generation=None):
     ui = None
     paused = False
     
+    # Speed settings for S key toggle
+    speed_levels = [30, 60, 120, 240]  # FPS values
+    current_speed_index = 1  # Start with 60 FPS
+    
     if visual:
         pygame.init()
         screen = pygame.display.set_mode((gl.WINDOW_WIDTH, gl.WINDOW_HEIGHT))
@@ -70,6 +74,14 @@ def play_game_with_ai(network, visual=True, generation=None):
                         paused = not paused
                     elif event.key == pygame.K_r:
                         game.reset()
+                    elif event.key == pygame.K_m:
+                        # Return to main menu
+                        pygame.quit()
+                        return "MAIN_MENU"
+                    elif event.key == pygame.K_s:
+                        # Toggle speed
+                        current_speed_index = (current_speed_index + 1) % len(speed_levels)
+                        print(f"Speed changed to {speed_levels[current_speed_index]} FPS")
             
             if paused:
                 clock.tick(10)
@@ -105,7 +117,7 @@ def play_game_with_ai(network, visual=True, generation=None):
                 ui.draw_game_over(game.snake.score)
             
             pygame.display.flip()
-            clock.tick(60)  # Slightly faster for better visual experience
+            clock.tick(speed_levels[current_speed_index])  # Use variable speed
     
     # If visual mode and game is over, wait for user input
     if visual and game.game_over:
@@ -127,6 +139,10 @@ def play_game_with_ai(network, visual=True, generation=None):
                         # Train again
                         pygame.quit()
                         return "TRAIN_AGAIN"
+                    elif event.key == pygame.K_m:
+                        # Return to main menu
+                        pygame.quit()
+                        return "MAIN_MENU"
                     elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
                         # Continue to exit
                         waiting_for_input = False
@@ -186,14 +202,17 @@ if __name__ == "__main__":
             
             # Play visual game
             print("\nPlaying visual game with trained AI...")
-            print("Controls: ESC to quit, SPACE to pause, R to restart, T to train again")
+            print("Controls: ESC to quit, SPACE to pause, R to restart, M to main menu, S to toggle speed, T to train again")
             result = play_game_with_ai(best_network, visual=True)
             
-            # Check if user wants to train again
+            # Check if user wants to train again or return to menu
             if result == "TRAIN_AGAIN":
                 print("\n" + "="*50)
                 print("Starting new training session...")
                 print("="*50 + "\n")
+                continue
+            elif result == "MAIN_MENU":
+                print("\nReturning to main menu...")
                 continue
         
         elif action == "load_model":
@@ -207,7 +226,7 @@ if __name__ == "__main__":
             
             print("Model loaded successfully!")
             print("Playing game with loaded AI...")
-            print("Controls: ESC to quit, SPACE to pause, R to restart")
+            print("Controls: ESC to quit, SPACE to pause, R to restart, M to main menu, S to toggle speed")
             
             # Play visual game with loaded model
             result = play_game_with_ai(best_network, visual=True)
@@ -216,6 +235,9 @@ if __name__ == "__main__":
                 print("\n" + "="*50)
                 print("Starting new training session...")
                 print("="*50 + "\n")
+                continue
+            elif result == "MAIN_MENU":
+                print("\nReturning to main menu...")
                 continue
         
         # Ask if user wants to return to menu or exit

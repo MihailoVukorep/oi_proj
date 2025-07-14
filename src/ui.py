@@ -147,7 +147,7 @@ class UI:
             y_offset += 40
         
         # Controls info
-        controls_y = WINDOW_HEIGHT - 120
+        controls_y = WINDOW_HEIGHT - 160
         controls_title = self.font_small.render("CONTROLS", True, TEXT_SECONDARY)
         controls_title_rect = controls_title.get_rect(centerx=GAME_AREA_WIDTH + UI_WIDTH // 2, y=controls_y)
         self.screen.blit(controls_title, controls_title_rect)
@@ -155,7 +155,9 @@ class UI:
         controls_text = [
             "ESC - Quit",
             "SPACE - Pause",
-            "R - Restart"
+            "R - Restart",
+            "M - Main Menu",
+            "S - Speed Toggle"
         ]
         
         for i, text in enumerate(controls_text):
