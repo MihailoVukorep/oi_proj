@@ -50,7 +50,7 @@ def play_game_with_ai(network, visual=True, generation=None):
     if visual:
         pygame.init()
         screen = pygame.display.set_mode((gl.WINDOW_WIDTH, gl.WINDOW_HEIGHT))
-        pygame.display.set_caption("Snake AI - Beautiful Interface")
+        pygame.display.set_caption("Snake AI")
         clock = pygame.time.Clock()
         ui = UI(screen)
     
