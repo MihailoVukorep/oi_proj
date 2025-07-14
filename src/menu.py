@@ -187,14 +187,6 @@ class Menu:
         footer_text = self.font_small.render(controls, True, gl.TEXT_SECONDARY)
         footer_rect = footer_text.get_rect(centerx=gl.WINDOW_WIDTH // 2, y=footer_y)
         self.screen.blit(footer_text, footer_rect)
-        
-        # Model status indicator
-        if not self.model_exists:
-            status_y = footer_y - 25
-            status_text = self.font_small.render("No saved model found", True, (150, 100, 100))
-            status_rect = status_text.get_rect(centerx=gl.WINDOW_WIDTH // 2, y=status_y)
-            self.screen.blit(status_text, status_rect)
-        
         pygame.display.flip()
     
     def handle_events(self):
