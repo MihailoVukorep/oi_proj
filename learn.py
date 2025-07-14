@@ -2,11 +2,17 @@
 
 import pygame
 import sys
+import os
 import src.globals as gl
 from src.genetic import GeneticAlgorithm 
 from src.game import Game
 from src.ui import UI
+from src.network import NeuralNetwork
+from src.menu import Menu
 
+# Model save path
+MODELS_DIR = "models"
+BEST_MODEL_PATH = os.path.join(MODELS_DIR, "best_model.json")
 
 def train_snake_ai(generations=50):
     """Train the snake AI using genetic algorithm"""
@@ -15,12 +21,26 @@ def train_snake_ai(generations=50):
     for gen in range(generations):
         ga.evolve()
         
-        # Save best network periodically
+        # Show progress every 10 generations
         if gen % 10 == 0:
-            print(f"Saving best network at generation {gen}")
-            # You can save the network weights here if needed
+            print(f"Generation {gen}: Best fitness so far: {ga.best_fitness:.2f}")
+    
+    # Save only the final best model
+    if ga.best_network:
+        ga.best_network.save_model(BEST_MODEL_PATH)
+        print(f"Best model saved to {BEST_MODEL_PATH}")
     
     return ga.best_network
+
+def load_best_model():
+    """Load the best saved model"""
+    try:
+        network = NeuralNetwork.load_model(BEST_MODEL_PATH)
+        return network
+    except FileNotFoundError:
+        print(f"No saved model found at {BEST_MODEL_PATH}")
+        print("Please train a model first by selecting 'New Game (Train AI)'")
+        return None
 
 def play_game_with_ai(network, visual=True, generation=None):
     """Play a game with the trained AI"""
@@ -132,34 +152,72 @@ def play_game_with_ai(network, visual=True, generation=None):
 
 if __name__ == "__main__":
     while True:
-        print("Training Snake AI with Genetic Algorithm...")
-        print("This may take a while...")
+        # Show main menu with model path check
+        menu = Menu(BEST_MODEL_PATH)
+        action = menu.run()
         
-        # Train the AI
-        best_network = train_snake_ai(generations=200)
-        
-        # Test the trained AI
-        print("\nTesting trained AI:")
-        scores = []
-        for i in range(10):  # Reduced from 100 for faster testing
-            score = play_game_with_ai(best_network, visual=False)
-            scores.append(score)
-            print(f"Test game {i+1}: Score {score}")
-        
-        avg_score = sum(scores) / len(scores)
-        max_score = max(scores)
-        print(f"\nAverage Score: {avg_score:.2f}")
-        print(f"Max Score: {max_score}")
-        
-        # Play visual game
-        print("\nPlaying visual game with trained AI...")
-        print("Controls: ESC to quit, SPACE to pause, R to restart, T to train again")
-        result = play_game_with_ai(best_network, visual=True)
-        
-        # Check if user wants to train again
-        if result != "TRAIN_AGAIN":
+        if action == "quit":
+            print("Goodbye!")
             break
         
-        print("\n" + "="*50)
-        print("Starting new training session...")
-        print("="*50 + "\n")
+        elif action == "new_game":
+            print("Training Snake AI with Genetic Algorithm...")
+            print("This may take a while...")
+            
+            # Train the AI
+            best_network = train_snake_ai(generations=50)
+            
+            if best_network is None:
+                print("Training failed!")
+                continue
+            
+            # Test the trained AI
+            print("\nTesting trained AI:")
+            scores = []
+            for i in range(10):
+                score = play_game_with_ai(best_network, visual=False)
+                scores.append(score)
+                print(f"Test game {i+1}: Score {score}")
+            
+            avg_score = sum(scores) / len(scores)
+            max_score = max(scores)
+            print(f"\nAverage Score: {avg_score:.2f}")
+            print(f"Max Score: {max_score}")
+            
+            # Play visual game
+            print("\nPlaying visual game with trained AI...")
+            print("Controls: ESC to quit, SPACE to pause, R to restart, T to train again")
+            result = play_game_with_ai(best_network, visual=True)
+            
+            # Check if user wants to train again
+            if result == "TRAIN_AGAIN":
+                print("\n" + "="*50)
+                print("Starting new training session...")
+                print("="*50 + "\n")
+                continue
+        
+        elif action == "load_model":
+            print("Loading best saved model...")
+            best_network = load_best_model()
+            
+            if best_network is None:
+                print("Press any key to return to menu...")
+                input()
+                continue
+            
+            print("Model loaded successfully!")
+            print("Playing game with loaded AI...")
+            print("Controls: ESC to quit, SPACE to pause, R to restart")
+            
+            # Play visual game with loaded model
+            result = play_game_with_ai(best_network, visual=True)
+            
+            if result == "TRAIN_AGAIN":
+                print("\n" + "="*50)
+                print("Starting new training session...")
+                print("="*50 + "\n")
+                continue
+        
+        # Ask if user wants to return to menu or exit
+        print("\nReturning to main menu...")
+        print("="*50)

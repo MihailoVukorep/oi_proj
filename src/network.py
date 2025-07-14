@@ -1,4 +1,6 @@
 import numpy as np
+import json
+import os
 
 class NeuralNetwork:
     def __init__(self, input_size=11, hidden_size=16, output_size=4):
@@ -64,3 +66,42 @@ class NeuralNetwork:
         new_net = NeuralNetwork(self.input_size, self.hidden_size, self.output_size)
         new_net.set_weights(self.get_weights())
         return new_net
+    
+    def save_model(self, filepath):
+        """Save the neural network weights to a file"""
+        model_data = {
+            'input_size': self.input_size,
+            'hidden_size': self.hidden_size,
+            'output_size': self.output_size,
+            'weights': self.get_weights().tolist()
+        }
+        
+        # Create models directory if it doesn't exist
+        os.makedirs(os.path.dirname(filepath), exist_ok=True)
+        
+        with open(filepath, 'w') as f:
+            json.dump(model_data, f)
+        print(f"Model saved to {filepath}")
+    
+    @classmethod
+    def load_model(cls, filepath):
+        """Load a neural network from a file"""
+        if not os.path.exists(filepath):
+            raise FileNotFoundError(f"Model file not found: {filepath}")
+        
+        with open(filepath, 'r') as f:
+            model_data = json.load(f)
+        
+        # Create network with loaded architecture
+        network = cls(
+            input_size=model_data['input_size'],
+            hidden_size=model_data['hidden_size'],
+            output_size=model_data['output_size']
+        )
+        
+        # Set the weights
+        weights = np.array(model_data['weights'])
+        network.set_weights(weights)
+        
+        print(f"Model loaded from {filepath}")
+        return network

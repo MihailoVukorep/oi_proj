@@ -24,14 +24,14 @@ class Game:
         if self.game_over:
             return
         
-        # Convert action to direction
-        if action == 0:  # Up
+
+        if action == 0:
             self.snake.set_direction(UP)
-        elif action == 1:  # Down
+        elif action == 1:
             self.snake.set_direction(DOWN)
-        elif action == 2:  # Left
+        elif action == 2:
             self.snake.set_direction(LEFT)
-        elif action == 3:  # Right
+        elif action == 3:
             self.snake.set_direction(RIGHT)
         
         self.snake.move()
@@ -49,7 +49,6 @@ class Game:
         head_x, head_y = self.snake.body[0]
         food_x, food_y = self.food
         
-        # Distance to food
         food_dist_x = food_x - head_x
         food_dist_y = food_y - head_y
         
