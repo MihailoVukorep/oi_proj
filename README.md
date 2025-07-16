@@ -81,14 +81,14 @@ snake-ai-genetic/
 │   ├── snake.py         # Snake entity with movement and collision detection
 │   ├── network.py       # Neural network implementation
 │   ├── genetic.py       # Genetic algorithm for evolution
-│   ├── ui.py           # User interface and rendering
-│   ├── menu.py         # Main menu system
-│   └── globals.py      # Game constants and configuration
+│   ├── ui.py            # User interface and rendering
+│   ├── menu.py          # Main menu system
+│   └── globals.py       # Game constants and configuration
 ├── models/
-│   └── best_model.json # Saved neural network weights
-├── learn.py            # Main application entry point
-├── requirements.txt    # Python dependencies
-└── README.md          # Project documentation
+│   └── best_model.json  # Saved neural network weights
+├── learn.py             # Main application entry point
+├── requirements.txt     # Python dependencies
+└── README.md            # Project documentation
 ```
 
 ### Neural Network Architecture
@@ -149,7 +149,7 @@ final_fitness = exponential_score_reward +
 # Grid Configuration
 GRID_WIDTH = 20          # Game board width
 GRID_HEIGHT = 20         # Game board height
-CELL_SIZE = 25          # Pixel size of each cell
+CELL_SIZE = 25           # Pixel size of each cell
 
 # Training Parameters
 MAX_STEPS_WITHOUT_FOOD = 100  # Game over threshold
@@ -233,9 +233,9 @@ state = [
     direction_down,     # Currently moving down
     direction_left,     # Currently moving left
     direction_right,    # Currently moving right
-    food_up,           # Food is above snake
-    food_down,         # Food is below snake
-    food_left,         # Food is left of snake
-    food_right         # Food is right of snake
+    food_up,            # Food is above snake
+    food_down,          # Food is below snake
+    food_left,          # Food is left of snake
+    food_right          # Food is right of snake
 ]
 ```
