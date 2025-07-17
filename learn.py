@@ -16,7 +16,7 @@ BEST_MODEL_PATH = os.path.join(MODELS_DIR, "best_model.json")
 
 def train_snake_ai(generations=50):
     """Train the snake AI using genetic algorithm"""
-    ga = GeneticAlgorithm()
+    ga = GeneticAlgorithm(population_size=300)
     
     for gen in range(generations):
         ga.evolve()
@@ -171,17 +171,17 @@ if __name__ == "__main__":
         # Show main menu with model path check
         menu = Menu(BEST_MODEL_PATH)
         action = menu.run()
-        
+
         if action == "quit":
             print("Goodbye!")
             break
-        
+
         elif action == "new_game":
             print("Training Snake AI with Genetic Algorithm...")
             print("This may take a while...")
             
             # Train the AI
-            best_network = train_snake_ai(generations=50)
+            best_network = train_snake_ai(generations=1000)
             
             if best_network is None:
                 print("Training failed!")

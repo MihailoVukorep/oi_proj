@@ -286,7 +286,7 @@ class GeneticAlgorithm:
         for i, network in enumerate(self.population):
             fitness = self.evaluate_fitness(network)
             self.fitness_scores.append(fitness)
-            print(f"Network {i+1}/{len(self.population)}: {fitness:.2f}")
+            #print(f"Network {i+1}/{len(self.population)}: {fitness:.2f}")
         
         # Track best network
         best_idx = np.argmax(self.fitness_scores)
