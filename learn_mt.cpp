@@ -519,10 +519,10 @@ public:
         int near_death_escapes = 0;
         
         std::vector<std::pair<int, int>> position_history;
-        position_history.reserve(2500);  // Pre-allocate for performance
+        position_history.reserve(GRID_WIDTH * GRID_HEIGHT);  // Pre-allocate for performance
         int loop_penalty = 0;
         
-        while (!game.is_game_over() && steps < 2500) {
+        while (!game.is_game_over() && steps < GRID_WIDTH * GRID_HEIGHT) {
             auto state = game.get_state();
             auto head_pos = game.get_snake().get_body()[0];
             auto food_pos = game.get_food();

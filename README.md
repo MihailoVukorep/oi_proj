@@ -150,13 +150,13 @@ final_fitness = exponential_score_reward +
 
 ```python
 # Grid Configuration
-GRID_WIDTH = 20          # Game board width
-GRID_HEIGHT = 20         # Game board height
+GRID_WIDTH = 35          # Game board width
+GRID_HEIGHT = 35         # Game board height
 CELL_SIZE = 25           # Pixel size of each cell
 
 # Training Parameters
-MAX_STEPS_WITHOUT_FOOD = 100  # Game over threshold
-MAX_GAME_STEPS = 2500         # Maximum steps per game
+MAX_STEPS_WITHOUT_FOOD = 400              # Game over threshold -- removed!
+MAX_GAME_STEPS = GRID_WIDTH * GRID_HEIGHT # Maximum steps per game
 
 # Neural Network Architecture
 INPUT_SIZE = 11          # Input features

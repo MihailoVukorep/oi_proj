@@ -2,6 +2,7 @@ import random
 from .game import Game
 from .network import NeuralNetwork
 import numpy as np
+from .globals import GRID_WIDTH, GRID_HEIGHT
 
 class GeneticAlgorithm:
     def __init__(self, population_size=100, mutation_rate=0.2, mutation_strength=0.2):
@@ -42,7 +43,7 @@ class GeneticAlgorithm:
             position_history = []
             loop_penalty = 0
             
-            while not game.game_over and steps < 2500:  # Increased max steps
+            while not game.game_over and steps < GRID_WIDTH * GRID_HEIGHT:  # Increased max steps
                 state = game.get_state()
                 head_pos = game.snake.body[0]
                 food_pos = game.food
@@ -208,7 +209,6 @@ class GeneticAlgorithm:
         danger_score = 0
         
         # Check distance to walls - need to get board dimensions from globals
-        from .globals import GRID_WIDTH, GRID_HEIGHT
         board_width = GRID_WIDTH
         board_height = GRID_HEIGHT
         
