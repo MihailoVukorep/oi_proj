@@ -832,10 +832,12 @@ int main() {
     GeneticAlgorithm ga(100, 0.2f, 0.2f);  // population_size, mutation_rate, mutation_strength
     
     // Training loop
-    int max_generations = 10000;
+    int max_generations = 100000;
     int print_interval = 100;
-    int save_interval = 1000;  // Save model every X generations
+    int save_interval = 5000;  // Save model every X generations
     
+    unsigned long long taken = 0;
+
     for (int i = 0; i < max_generations; i++) {
 
         bool verbose = i % print_interval == 0;
@@ -847,9 +849,12 @@ int main() {
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
+        auto time = duration.count();
+        taken += time;
+
         if (verbose) {
-            std::cout << "Generation time: " << duration.count() << "ms" << std::endl;
-            std::cout << std::endl;
+            std::cout << "Generation time: " << time << "ms" << std::endl;
+            std::cout << "Total time: " << taken << "ms" << std::endl;
         }
         
         // Save model periodically
