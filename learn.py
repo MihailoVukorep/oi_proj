@@ -48,7 +48,7 @@ def play_game_with_ai(network, visual=True, generation=None):
     paused = False
     
     # Speed settings for S key toggle
-    speed_levels = [30, 60, 120, 240]  # FPS values
+    speed_levels = [30, 60, 120, 240, 480, 960]  # FPS values
     current_speed_index = 1  # Start with 60 FPS
     
     if visual:
