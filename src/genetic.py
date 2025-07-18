@@ -89,9 +89,9 @@ class GeneticAlgorithm:
                 if danger_level > 0.7 and not game.game_over:
                     near_death_escapes += 1
                 
-                # Early termination if stuck in area without progress
-                if steps_without_food > 400:  # Increased threshold
-                    break
+                # # Early termination if stuck in area without progress
+                # if steps_without_food > 400:  # Increased threshold
+                #    break
             
             # Calculate comprehensive fitness
             score = game.snake.score

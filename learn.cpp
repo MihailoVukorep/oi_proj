@@ -526,10 +526,10 @@ public:
                     near_death_escapes++;
                 }
                 
-                // Early termination if stuck
-                if (steps_without_food > 400) {
-                    break;
-                }
+                // // Early termination if stuck
+                // if (steps_without_food > 400) {
+                //     break;
+                // }
             }
             
             // Calculate comprehensive fitness

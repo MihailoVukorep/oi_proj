@@ -580,10 +580,10 @@ public:
                 near_death_escapes++;
             }
             
-            // Early termination if stuck
-            if (steps_without_food > 400) {
-                break;
-            }
+            // // Early termination if stuck
+            // if (steps_without_food > 400) {
+            //     break;
+            // }
         }
         
         // Calculate comprehensive fitness
@@ -836,7 +836,7 @@ int main() {
     // Training loop
     int max_generations = 1000000;
     int print_interval = 100;
-    int save_interval = 5000;  // Save model every X generations
+    int save_interval = 1000;  // Save model every X generations
     
     unsigned long long taken = 0;
 
