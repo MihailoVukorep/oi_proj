@@ -86,9 +86,9 @@ public:
         steps_since_food++;
 
         // Die if taking too long without food
-        //if (steps_since_food > 400) {
-        //    alive = false;
-        //}
+        if (steps_since_food > 400) {
+            alive = false;
+        }
     }
 
     void set_direction(Direction new_direction) {
