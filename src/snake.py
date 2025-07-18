@@ -45,8 +45,8 @@ class Snake:
         self.steps_since_food += 1
         
         # Die if taking too long without food
-        if self.steps_since_food > 100:
-            self.alive = False
+        #if self.steps_since_food > 400:
+        #    self.alive = False
     
     def set_direction(self, direction):
         # Prevent moving backwards

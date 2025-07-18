@@ -14,8 +14,8 @@
 using json = nlohmann::json;
 
 // Game constants
-const int GRID_WIDTH = 20;
-const int GRID_HEIGHT = 20;
+const int GRID_WIDTH = 35;
+const int GRID_HEIGHT = 35;
 
 // Directions
 enum Direction { UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3 };
@@ -86,9 +86,9 @@ public:
         steps_since_food++;
 
         // Die if taking too long without food
-        if (steps_since_food > 100) {
-            alive = false;
-        }
+        //if (steps_since_food > 400) {
+        //    alive = false;
+        //}
     }
 
     void set_direction(Direction new_direction) {
@@ -769,8 +769,10 @@ int main() {
     std::cout << "Snake AI Training in C++" << std::endl;
     std::cout << "=========================" << std::endl;
     
+    int population_size = 300;
+
     // Initialize genetic algorithm
-    GeneticAlgorithm ga(100, 0.2f, 0.2f);  // population_size, mutation_rate, mutation_strength
+    GeneticAlgorithm ga(population_size, 0.2f, 0.2f);  // population_size, mutation_rate, mutation_strength
     
     // Training loop
     int max_generations = 1000;
@@ -788,7 +790,7 @@ int main() {
         
         // Save model periodically
         if ((i + 1) % save_interval == 0) {
-            std::string filename = "models/snake_ai_gen_" + std::to_string(ga.get_generation()) + ".json";
+            std::string filename = "models/snake_ai_pop_" + std::to_string(population_size) + "_gen_" + std::to_string(ga.get_generation()) + ".json";
             ga.save_best_model(filename);
         }
         
