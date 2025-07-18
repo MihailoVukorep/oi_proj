@@ -4,6 +4,9 @@
 [![Pygame](https://img.shields.io/badge/pygame-2.0%2B-red.svg)](https://pygame.org)
 [![NumPy](https://img.shields.io/badge/numpy-1.19%2B-orange.svg)](https://numpy.org)
 
+## 👁️ Preview
+<img src="preview/preview.gif" width="751" height="528">
+
 ## 🎯 Overview
 
 This project implements an AI-powered Snake game where neural networks learn to play through evolutionary algorithms. The AI starts with random behavior and gradually evolves over generations to become an expert Snake player, demonstrating the power of genetic algorithms and neural networks in game AI.
