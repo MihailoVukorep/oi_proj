@@ -834,9 +834,9 @@ int main() {
     GeneticAlgorithm ga(population_size, 0.2f, 0.2f);  // population_size, mutation_rate, mutation_strength
     
     // Training loop
-    int max_generations = 1000;
+    int max_generations = 1000000;
     int print_interval = 100;
-    int save_interval = 100;  // Save model every X generations
+    int save_interval = 5000;  // Save model every X generations
     
     unsigned long long taken = 0;
 
