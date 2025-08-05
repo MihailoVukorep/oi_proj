@@ -1,8 +1,11 @@
 # 🐍 Snake AI - Genetic Algorithm Neural Network
 
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://python.org)
+[![GCC](https://img.shields.io/badge/GCC-7%2B-brightgreen.svg)](https://gcc.gnu.org)
 [![Pygame](https://img.shields.io/badge/pygame-2.0%2B-red.svg)](https://pygame.org)
 [![NumPy](https://img.shields.io/badge/numpy-1.19%2B-orange.svg)](https://numpy.org)
+
+
 
 ## 👁️ Preview
 <img src="preview/preview.gif" width="751" height="528">
@@ -25,8 +28,13 @@ This project implements an AI-powered Snake game where neural networks learn to 
 
 ### Prerequisites
 
+#### For Python Version
 - Python 3.8 or higher
 - pip package manager
+
+#### For C++ Version (Optional - for high-performance training)
+- GCC compiler with C++11 support
+- Make build system
 
 ### Installation
 
@@ -36,8 +44,14 @@ This project implements an AI-powered Snake game where neural networks learn to 
    cd oi_proj
    ```
 
-2. **Install dependencies**
+2. **Set up Python environment and install dependencies**
    ```bash
+   # Using the provided setup script (recommended)
+   bash setup-env.sh
+   
+   # Or manually:
+   python -m venv p3env
+   source p3env/bin/activate  # On Windows: p3env\Scripts\activate
    pip install -r requirements.txt
    ```
 
@@ -70,7 +84,7 @@ This project implements an AI-powered Snake game where neural networks learn to 
 | `SPACE` | Pause/Resume game |
 | `R` | Restart current game |
 | `M` | Return to main menu |
-| `S` | Toggle game speed (30/60/120/240 FPS) |
+| `S` | Toggle game speed (30/60/120/240/480/960 FPS) |
 | `T` | Train new model (when in game over screen) |
 
 ## 🏗️ Architecture
@@ -78,7 +92,7 @@ This project implements an AI-powered Snake game where neural networks learn to 
 ### Project Structure
 
 ```
-snake-ai-genetic/
+oi_proj/
 ├── src/
 │   ├── game.py          # Core game logic and state management
 │   ├── snake.py         # Snake entity with movement and collision detection
@@ -89,7 +103,13 @@ snake-ai-genetic/
 │   └── globals.py       # Game constants and configuration
 ├── models/
 │   └── best_model.json  # Saved neural network weights
-├── learn.py             # Main application entry point
+├── preview/
+│   └── preview.gif      # Demo animation
+├── learn.py             # Main Python application entry point
+├── learn.cpp            # Single-threaded C++ implementation
+├── learn_mt.cpp         # Multi-threaded C++ implementation
+├── Makefile             # Build system for C++ versions
+├── setup-env.sh         # Environment setup script
 ├── requirements.txt     # Python dependencies
 └── README.md            # Project documentation
 ```
@@ -110,13 +130,13 @@ Output Layer (4 neurons)
 
 ### Genetic Algorithm Parameters
 
-| Parameter | Description |
-|-----------|-------------|
-| Population Size |Number of networks per generation |
-| Mutation Rate |Probability of weight mutation |
-| Mutation Strength |Magnitude of weight changes |
-| Generations |Default training iterations |
-| Elite Preservation |Best network always survives |
+| Parameter | Set Value | Description |
+|-----------|---------------|-------------|
+| Population Size | 300 | Number of networks per generation |
+| Mutation Rate | 0.2 | Probability of weight mutation |
+| Mutation Strength | 0.2 | Magnitude of weight changes |
+| Generations | 1000 | Default training iterations |
+| Elite Preservation | Yes | Best network always survives |
 
 ## 📊 Fitness Evaluation
 
@@ -149,19 +169,25 @@ final_fitness = exponential_score_reward +
 ### Game Settings (globals.py)
 
 ```python
-# Grid Configuration
-GRID_WIDTH = 35          # Game board width
-GRID_HEIGHT = 35         # Game board height
-CELL_SIZE = 25           # Pixel size of each cell
+GRID_SIZE = 20  
+GRID_WIDTH = 35       
+GRID_HEIGHT = 35      
+CELL_SIZE = 25       
+GAME_AREA_WIDTH = GRID_WIDTH * CELL_SIZE
+GAME_AREA_HEIGHT = GRID_HEIGHT * CELL_SIZE
+UI_WIDTH = 250
+WINDOW_WIDTH = GAME_AREA_WIDTH + UI_WIDTH
+WINDOW_HEIGHT = GAME_AREA_HEIGHT
 
-# Training Parameters
-MAX_STEPS_WITHOUT_FOOD = 400              # Game over threshold
-MAX_GAME_STEPS = GRID_WIDTH * GRID_HEIGHT # Maximum steps per game
+# Colors and Directions are also defined in globals.py
+# ...
 
-# Neural Network Architecture
-INPUT_SIZE = 11          # Input features
-HIDDEN_SIZE = 16         # Hidden layer neurons
-OUTPUT_SIZE = 4          # Possible actions
+# Directions
+UP = (0, -1)
+DOWN = (0, 1)
+LEFT = (-1, 0)
+RIGHT = (1, 0)
+DIRECTIONS = [UP, DOWN, LEFT, RIGHT]
 ```
 
 ### Customizing Training
@@ -179,27 +205,6 @@ ga = GeneticAlgorithm(
     mutation_strength=0.3
 )
 ```
-
-## 📈 Performance Metrics
-
-### Training Progress Tracking
-
-The system provides detailed metrics during training:
-
-- **Generation Statistics**: Best, average, and worst fitness per generation
-- **Improvement Rate**: Fitness improvement over time
-- **Convergence Analysis**: Population diversity and selection pressure
-- **Performance Benchmarks**: Multi-game average scores for consistency
-
-### Expected Results
-
-| Generation Range | Typical Best Score | Behavior Description |
-|------------------|-------------------|---------------------|
-| 0-10 | 0-2 | Random movement, frequent collisions |
-| 10-25 | 3-8 | Basic food seeking, some survival instinct |
-| 25-40 | 8-15 | Consistent food collection, collision avoidance |
-| 40-50+ | 15-25+ | Expert play, efficient pathfinding |
-
 
 ## 📚 Technical Deep Dive
 
@@ -242,3 +247,27 @@ state = [
     food_right          # Food is right of snake
 ]
 ```
+
+## 🚀 High-Performance C++ Implementation
+
+For faster training, the project includes optimized C++ implementations:
+
+### Available Builds
+
+- **`learn.cpp`**: Single-threaded C++ implementation
+- **`learn_mt.cpp`**: Multi-threaded C++ implementation for maximum performance
+
+## 📁 Model Management
+
+Trained models are automatically saved in the `models/` directory:
+- `best_model.json` - Latest best performing model
+- `pop_X_gen_Y.json` - Checkpoint models during training
+
+The models use JSON format for cross-compatibility between Python and C++ implementations.
+
+## 🎯 Tips for Better Training
+
+1. **Start with Python**: Use the Python version for initial experimentation and visualization
+2. **Scale with C++**: Switch to C++ implementations for serious training sessions
+3. **Population Size**: Larger populations (300-500) generally produce better results
+4. **Patience**: Good models typically emerge after 500-1000 generations
