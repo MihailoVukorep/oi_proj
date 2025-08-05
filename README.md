@@ -46,12 +46,12 @@ This project implements an AI-powered Snake game where neural networks learn to 
 
 2. **Set up Python environment and install dependencies**
    ```bash
-   # Using the provided setup script (recommended)
+   # Using the provided setup script
    bash setup-env.sh
    
    # Or manually:
-   python -m venv p3env
-   source p3env/bin/activate  # On Windows: p3env\Scripts\activate
+   python -m venv .venv
+   .venv\Scripts\activate
    pip install -r requirements.txt
    ```
 
